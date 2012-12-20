@@ -13,7 +13,7 @@ module AnvilBuild
     def initialize(build_dir, cache_dir)
       @build_dir = build_dir
       @cache_dir = cache_dir
-      pipe "rm -rf #{@buid_dir}/*"
+      pipe "rm -rf #{@build_dir}/*"
     end
 
     # this is the main compile method.
