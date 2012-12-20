@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'anvil_build'
+require 'anvil_build/cli'
+
+AnvilBuild::CLI.start
