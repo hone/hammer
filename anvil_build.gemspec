@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = AnvilBuild::VERSION
   gem.authors       = ["Terence Lee"]
   gem.email         = ["hone02@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Library to assist with building binaries using Heroku's anvil}
+  gem.summary       = %q{Library to assist with building binaries using Heroku's anvil}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
