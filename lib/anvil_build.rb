@@ -20,7 +20,7 @@ module AnvilBuild
     # or at least ensure the artifacts you want to be in the
     # final tarball is there.
     def compile
-      Dir.mktmpdir("libyaml-") do |tmpdir|
+      Dir.mktmpdir do |tmpdir|
         Dir.chdir(tmpdir) do |dir|
           yield dir
         end
