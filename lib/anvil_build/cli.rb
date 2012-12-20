@@ -8,9 +8,12 @@ module AnvilBuild
 
     desc "new", "generate a new binary project"
     def new(name)
+      puts "Creating buildpack skeleton..."
+      puts "#{name}/"
       FileUtils.mkdir(name)
 
       Dir.chdir(name) do
+        puts "#{name}/Gemfile"
         File.open('Gemfile', 'wb') do |file|
           file.puts <<GEMFILE
 source "https://rubygems.org"
@@ -18,8 +21,11 @@ source "https://rubygems.org"
 gem 'anvil_build', "~> #{AnvilBuild::VERSION}", :github => 'hone/anvil_build'
 GEMFILE
         end
+
+        puts "#{name}/bin"
         FileUtils.mkdir("bin")
         Dir.chdir("bin") do
+          puts "#{name}/bin/detect"
           File.open("detect", 'wb') do |file|
             file.chmod(0755)
             file.puts <<DETECT
@@ -28,6 +34,8 @@ GEMFILE
 echo "#{name}"
 DETECT
           end
+
+          puts "#{name}/bin/release"
           File.open("release", 'wb') do |file|
             file.chmod(0755)
             file.puts <<RELEASE
@@ -36,6 +44,8 @@ DETECT
 echo "--- {}"
 RELEASE
           end
+
+          puts "#{name}/bin/compile"
           File.open("compile", 'wb') do |file|
             file.chmod(0755)
             file.puts <<COMPILE
