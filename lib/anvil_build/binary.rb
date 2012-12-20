@@ -27,6 +27,9 @@ module AnvilBuild
           yield dir
         end
       end
+
+      puts "Packaging the following files/dirs:"
+      pipe "ls #{@build_dir}"
     end
   end
 end
