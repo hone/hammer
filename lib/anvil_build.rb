@@ -1,9 +1,12 @@
 require "anvil_build/version"
+require "anvil_build/shell_tools"
 require "tmpdir"
 
 module AnvilBuild
   # class assists in building binaries using anvil on Heroku.
   class Binary
+    include ShellTools
+
     # @param [String] path to the build dir
     # @param [String] path to the cache dir
     # ensures the build dir is clean
@@ -26,22 +29,6 @@ module AnvilBuild
         end
       end
     end
-  end
-
-  private
-  # run a shell command and stream the output
-  # @param [String] command to be run
-  def pipe(command)
-    output = ""
-    IO.popen(command) do |io|
-      until io.eof?
-        buffer = io.gets
-        output << buffer
-        puts buffer
-      end
-    end
-
-    output
   end
 
 end
