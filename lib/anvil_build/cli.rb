@@ -1,6 +1,7 @@
 require "anvil_build/shell_tools"
 require 'thor'
 require 'fileutils'
+require 'tmpdir'
 
 module AnvilBuild
   class CLI < Thor
@@ -79,6 +80,26 @@ COMPILE
 
         puts "running `bundle install --standalone`"
         pipe "env BUNDLE_GEMFILE=Gemfile bundle install --standalone"
+      end
+    end
+
+    desc "build", "builds the binary"
+    #method_option :version, :type => :string
+    #  :desc => "the version of the project"
+    method_option :local, :type => :boolean, :default => false,
+      :desc => "flag to do a local build"
+    def build
+      if options[:local]
+        tmpdir    = Dir.mktmpdir
+        build_dir = "#{tmpdir}/build"
+        cache_dir = "#{tmpdir}/cache"
+        FileUtils.mkdir_p build_dir
+        FileUtils.mkdir_p cache_dir
+        puts "Creating tmpdir for build output: #{tmpdir}/build"
+        puts "Building..."
+        pipe "bin/compile #{build_dir} #{cache_dir}"
+        puts "Done."
+        puts "Build artifacts here: #{tmpdir}"
       end
     end
   end
