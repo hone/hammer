@@ -30,7 +30,11 @@ module AnvilBuild
       puts "Packaging the following files/dirs:"
       pipe "ls #{@build_dir}"
     ensure
-      FileUtils.rm_rf(tmpdir) unless ENV['DEBUG']
+      if ENV['DEBUG']
+        puts "Source dir: #{tmpdir}"
+      else
+        FileUtils.rm_rf(tmpdir)
+      end
     end
   end
 end
