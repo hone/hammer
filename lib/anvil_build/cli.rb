@@ -107,7 +107,6 @@ COMPILE
         cache_dir = "#{tmpdir}/cache"
         FileUtils.mkdir_p build_dir
         FileUtils.mkdir_p cache_dir
-        puts "Creating tmpdir for build output: #{tmpdir}/build"
 
         puts "Building..."
         cmd << "bin/compile #{build_dir} #{cache_dir}"
@@ -122,7 +121,12 @@ COMPILE
         end
         FileUtils.mv("#{tmpdir}/#{package_name}.tgz", ".")
         puts "tarball here: ./#{package_name}.tgz"
+      end
+    ensure
+      if env[:DEBUG]
         puts "Build artifacts here: #{tmpdir}"
+      else
+        FileUtils.rm_rf(tmpdir)
       end
     end
   end
