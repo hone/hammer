@@ -6,7 +6,7 @@ module AnvilBuild
   class CLI < Thor
     include ShellTools
 
-    desc "new", "generate a new binary project"
+    desc "new PROJECT_NAME", "generate a new binary project"
     def new(name)
       puts "Creating buildpack skeleton..."
       puts "#{name}/"
