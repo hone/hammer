@@ -88,7 +88,12 @@ COMPILE
     #  :desc => "the version of the project"
     method_option :local, :type => :boolean, :default => false,
       :desc => "flag to do a local build"
+    method_option :debug, :type => :boolean, :default => false,
+      :desc => "set build to be debugged"
     def build
+      cmd = ""
+      cmd << "env DEBUG=1 " if options[:debug]
+
       if options[:local]
         tmpdir    = Dir.mktmpdir
         build_dir = "#{tmpdir}/build"
@@ -96,8 +101,10 @@ COMPILE
         FileUtils.mkdir_p build_dir
         FileUtils.mkdir_p cache_dir
         puts "Creating tmpdir for build output: #{tmpdir}/build"
+
         puts "Building..."
-        pipe "bin/compile #{build_dir} #{cache_dir}"
+        cmd << "bin/compile #{build_dir} #{cache_dir}"
+        pipe cmd
         puts "Done."
         puts "Build artifacts here: #{tmpdir}"
       end

@@ -22,14 +22,15 @@ module AnvilBuild
     # or at least ensure the artifacts you want to be in the
     # final tarball is there.
     def compile
-      Dir.mktmpdir do |tmpdir|
-        Dir.chdir(tmpdir) do |dir|
-          yield dir
-        end
+      tmpdir = Dir.mktmpdir
+      Dir.chdir(tmpdir) do |dir|
+        yield dir
       end
 
       puts "Packaging the following files/dirs:"
       pipe "ls #{@build_dir}"
+    ensure
+      FileUtils.rm_rf(tmpdir) unless ENV['DEBUG']
     end
   end
 end
