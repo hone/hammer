@@ -84,15 +84,22 @@ COMPILE
     end
 
     desc "build", "builds the binary"
-    #method_option :version, :type => :string
-    #  :desc => "the version of the project"
+    method_option :version, :type => :string,
+      :desc => "the version of the project"
     method_option :local, :type => :boolean, :default => false,
       :desc => "flag to do a local build"
     method_option :debug, :type => :boolean, :default => false,
       :desc => "set build to be debugged"
     def build
+      env = {:VERSION => options[:version], :DEBUG => options[:debug]}
       cmd = ""
-      cmd << "env DEBUG=1 " if options[:debug]
+      if env.values.any?
+        cmd << "env "
+        env.each do |key, value|
+          cmd << "#{key}=#{value}" if value
+        end
+        cmd << " "
+      end
 
       if options[:local]
         tmpdir    = Dir.mktmpdir

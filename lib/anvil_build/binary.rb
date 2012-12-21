@@ -21,9 +21,10 @@ module AnvilBuild
     # build dir. An output tarball is created from the contents
     # of this final tarball.
     def compile
-      tmpdir = Dir.mktmpdir
-      Dir.chdir(tmpdir) do |source_dir, build_dir|
-        yield source_dir, @build_dir
+      tmpdir  = Dir.mktmpdir
+      version = ENV['VERSION']
+      Dir.chdir(tmpdir) do |source_dir, build_dir, version|
+        yield source_dir, @build_dir, version
       end
 
       puts "Packaging the following files/dirs:"
