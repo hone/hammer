@@ -113,6 +113,15 @@ COMPILE
         cmd << "bin/compile #{build_dir} #{cache_dir}"
         pipe cmd
         puts "Done."
+
+        require 'digest/sha1'
+        package_name = Digest::SHA1.hexdigest(rand.to_s)
+        Dir.chdir(build_dir) do
+          puts "Packaging..."
+          pipe "tar cvf ../#{package_name}.tgz ."
+        end
+        FileUtils.mv("#{tmpdir}/#{package_name}.tgz", ".")
+        puts "tarball here: ./#{package_name}.tgz"
         puts "Build artifacts here: #{tmpdir}"
       end
     end
