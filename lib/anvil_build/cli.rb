@@ -62,17 +62,9 @@ DEFAULT_VERSION = "0.1"
 version = ENV['VERSION'] || DEFAULT_VERSION
 
 binary = AnvilBuild::Binary.new(ARGV[0], ARGV[1])
-binary.compile do |build_dir|
-  full_name = "#{name}-\#{version}"
-  # download source
-  pipe "curl http://example.com/\#{full_name}.tar.gz -s -o - | tar vzxf -"
-
-  Dir.chdir("\#{full_name}") do |dir|
-    [
-      "env CFLAGS=-fPIC ./configure --enable-static --disable-shared --prefix=\#{build_dir}",
-      "make",
-      "make install"
-    ].each {|cmd| pipe(cmd) }
+binary.compile do |workspace_dir, output_dir, version|
+  Dir.chdir(workspace_dir) do
+    system("env HOME=\#{workspace_dir} /tmp/build \#{workspace_dir} \#{output_dir}")
   end
 end
 COMPILE
