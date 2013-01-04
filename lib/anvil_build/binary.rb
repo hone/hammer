@@ -12,6 +12,8 @@ module AnvilBuild
     def initialize(build_dir, cache_dir)
       @build_dir = build_dir
       @cache_dir = cache_dir
+      pipe "mv #{@build_dir}/* /tmp"
+      pipe "chmod u+x /tmp/build"
       pipe "rm -rf #{@build_dir}/*"
     end
 
