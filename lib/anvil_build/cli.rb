@@ -130,10 +130,12 @@ COMPILE
         end
       end
     ensure
-      if env[:DEBUG]
-        puts "Build artifacts here: #{tmpdir}"
-      else
-        FileUtils.rm_rf(tmpdir)
+      if options[:local]
+        if env[:DEBUG]
+          puts "Build artifacts here: #{tmpdir}"
+        else
+          FileUtils.rm_rf(tmpdir)
+        end
       end
     end
   end
