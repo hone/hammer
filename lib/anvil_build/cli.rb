@@ -2,6 +2,7 @@ require "anvil_build/shell_tools"
 require 'thor'
 require 'fileutils'
 require 'tmpdir'
+require 'uri'
 
 module AnvilBuild
   class CLI < Thor
@@ -121,6 +122,20 @@ COMPILE
         end
         FileUtils.mv("#{tmpdir}/#{package_name}.tgz", ".")
         puts "tarball here: ./#{package_name}.tgz"
+      else
+        require 'anvil/engine'
+        slug_url = Anvil::Engine.build(".", :buildpack => ".")
+        filename = URI.parse(slug_url).path.sub("/slugs/", "")
+        pwd      = Dir.pwd
+        Dir.mktmpdir do |dir|
+          Dir.chdir(dir) do
+            system("curl -O #{slug_url}")
+            system("tar zxf #{filename}")
+            system("rm -rf #{filename} .profile.d .bundle Procfile .gitignore")
+            system("tar czf #{filename} *")
+            system("mv #{filename} #{pwd}")
+          end
+        end
       end
     ensure
       if env[:DEBUG]
