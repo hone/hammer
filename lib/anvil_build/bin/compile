@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require_relative '../vendor/bundle/bundler/setup'
+require 'anvil_build'
+
+include AnvilBuild::ShellTools
+
+DEFAULT_VERSION = "0.1"
+version = ENV['VERSION'] || DEFAULT_VERSION
+
+binary = AnvilBuild::Binary.new(ARGV[0], ARGV[1])
+binary.compile do |workspace_dir, output_dir, version|
+  Dir.chdir(workspace_dir) do
+    system("env HOME=#{workspace_dir} /tmp/build #{workspace_dir} #{output_dir}")
+  end
+end

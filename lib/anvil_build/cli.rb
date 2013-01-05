@@ -83,6 +83,8 @@ COMPILE
       :desc => "flag to do a local build"
     method_option :debug, :type => :boolean, :default => false,
       :desc => "set build to be debugged"
+    method_option :build, :type => :string, :default => ".",
+      :desc => "path to the build scripts"
     def build
       env = {:VERSION => options[:version], :DEBUG => options[:debug]}
       cmd = ""
@@ -116,10 +118,35 @@ COMPILE
         puts "tarball here: ./#{package_name}.tgz"
       else
         require 'anvil/engine'
-        slug_url = Anvil::Engine.build(".", :buildpack => ".")
-        filename = URI.parse(slug_url).path.sub("/slugs/", "")
+        slug_url = nil
         pwd      = Dir.pwd
+
         Dir.mktmpdir do |dir|
+          system("cp -rf #{options[:build]}/* #{dir}")
+
+          Dir.chdir(dir) do
+            FileUtils.mkdir_p("bin")
+            Dir.chdir("bin") do
+              write_bin_file('detect', read_bin_file("detect"))
+              write_bin_file('compile', read_bin_file("compile"))
+              write_bin_file('release', read_bin_file("release"))
+            end
+            File.open('Gemfile', 'wb') do |file|
+              file.puts <<GEMFILE
+source "https://rubygems.org"
+
+gem 'anvil_build', "~> #{AnvilBuild::VERSION}", :github => 'hone/anvil_build'
+GEMFILE
+            end
+            system("bundle install --standalone")
+
+            slug_url = Anvil::Engine.build(".", :buildpack => ".")
+          end
+        end
+
+        Dir.mktmpdir do |dir|
+          filename = URI.parse(slug_url).path.sub("/slugs/", "")
+
           Dir.chdir(dir) do
             system("curl -O #{slug_url}")
             system("tar zxf #{filename}")
@@ -137,6 +164,18 @@ COMPILE
           FileUtils.rm_rf(tmpdir)
         end
       end
+    end
+
+    private
+    def write_bin_file(name, contents)
+      File.open(name, 'wb') do |file|
+        file.chmod(0755)
+        file.puts contents
+      end
+    end
+
+    def read_bin_file(name)
+      File.read(File.join(File.dirname(__FILE__), "bin/#{name}"))
     end
   end
 end
