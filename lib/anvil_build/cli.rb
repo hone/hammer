@@ -85,6 +85,8 @@ COMPILE
       :desc => "set build to be debugged"
     method_option :build, :type => :string, :default => ".",
       :desc => "path to the build scripts"
+    method_option :env, :type => :hash,
+      :desc => "build environment to pass to the build script"
     def build
       env = {:VERSION => options[:version], :DEBUG => options[:debug]}
       cmd = ""
@@ -130,6 +132,11 @@ COMPILE
               write_bin_file('detect', read_bin_file("detect"))
               write_bin_file('compile', read_bin_file("compile"))
               write_bin_file('release', read_bin_file("release"))
+            end
+            if options[:env]
+              File.open('env', 'wb') do |file|
+                options[:env].each {|k, v| file.puts "#{k}=#{v}" }
+              end
             end
             File.open('Gemfile', 'wb') do |file|
               file.puts <<GEMFILE
