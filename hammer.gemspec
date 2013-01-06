@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'anvil_build/version'
+require 'hammer/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "anvil_build"
-  gem.version       = AnvilBuild::VERSION
+  gem.name          = "hammer"
+  gem.version       = Hammer::VERSION
   gem.authors       = ["Terence Lee"]
   gem.email         = ["hone02@gmail.com"]
   gem.description   = %q{Library to assist with building binaries using Heroku's anvil}

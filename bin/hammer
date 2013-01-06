@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'hammer'
+require 'hammer/cli'
+
+Hammer::CLI.start

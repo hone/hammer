@@ -1,4 +1,4 @@
-module AnvilBuild
+module Hammer
   # convenience methods for interacting with the shell
   # in ruby that can be used in your build program
   module ShellTools

@@ -1,4 +1,4 @@
-# AnvilBuild
+# Hammer
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'anvil_build'
+    gem 'hammer'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install anvil_build
+    $ gem install hammer
 
 ## Usage
 

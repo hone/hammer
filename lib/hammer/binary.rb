@@ -1,7 +1,7 @@
-require "anvil_build/shell_tools"
+require "hammer/shell_tools"
 require "tmpdir"
 
-module AnvilBuild
+module Hammer
   # class assists in building binaries using anvil on Heroku.
   class Binary
     include ShellTools

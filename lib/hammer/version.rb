@@ -1,3 +1,3 @@
-module AnvilBuild
+module Hammer
   VERSION = "0.0.1"
 end

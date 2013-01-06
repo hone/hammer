@@ -1,10 +1,10 @@
-require "anvil_build/shell_tools"
+require "hammer/shell_tools"
 require 'thor'
 require 'fileutils'
 require 'tmpdir'
 require 'uri'
 
-module AnvilBuild
+module Hammer
   class CLI < Thor
     include ShellTools
 
@@ -20,7 +20,7 @@ module AnvilBuild
           file.puts <<GEMFILE
 source "https://rubygems.org"
 
-gem 'anvil_build', "~> #{AnvilBuild::VERSION}", :github => 'hone/anvil_build'
+gem 'hammer', "~> #{Hammer::VERSION}", :github => 'hone/hammer'
 GEMFILE
         end
 
@@ -54,14 +54,14 @@ RELEASE
 #!/usr/bin/env ruby
 
 require_relative '../vendor/bundle/bundler/setup'
-require 'anvil_build'
+require 'hammer'
 
-include AnvilBuild::ShellTools
+include Hammer::ShellTools
 
 DEFAULT_VERSION = "0.1"
 version = ENV['VERSION'] || DEFAULT_VERSION
 
-binary = AnvilBuild::Binary.new(ARGV[0], ARGV[1])
+binary = Hammer::Binary.new(ARGV[0], ARGV[1])
 binary.compile do |workspace_dir, output_dir, version|
   Dir.chdir(workspace_dir) do
     system("env HOME=\#{workspace_dir} /tmp/build \#{workspace_dir} \#{output_dir}")
@@ -142,7 +142,7 @@ COMPILE
               file.puts <<GEMFILE
 source "https://rubygems.org"
 
-gem 'anvil_build', "~> #{AnvilBuild::VERSION}", :github => 'hone/anvil_build'
+gem 'hammer', "~> #{Hammer::VERSION}", :github => 'hone/hammer'
 GEMFILE
             end
             system("bundle install --standalone")
