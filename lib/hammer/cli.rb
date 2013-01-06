@@ -29,47 +29,11 @@ GEMFILE
         FileUtils.mkdir("bin")
         Dir.chdir("bin") do
           puts "#{name}/bin/detect"
-          File.open("detect", 'wb') do |file|
-            file.chmod(0755)
-            file.puts <<DETECT
-#!/usr/bin/env bash
-
-echo "#{name}"
-DETECT
-          end
-
+          write_bin_file('detect', read_bin_file("detect"))
           puts "#{name}/bin/release"
-          File.open("release", 'wb') do |file|
-            file.chmod(0755)
-            file.puts <<RELEASE
-#!/usr/bin/env bash
-
-echo "--- {}"
-RELEASE
-          end
-
+          write_bin_file('release', read_bin_file("release"))
           puts "#{name}/bin/compile"
-          File.open("compile", 'wb') do |file|
-            file.chmod(0755)
-            file.puts <<COMPILE
-#!/usr/bin/env ruby
-
-require_relative '../vendor/bundle/bundler/setup'
-require 'vise'
-
-include Vise::ShellTools
-
-DEFAULT_VERSION = "0.1"
-version = ENV['VERSION'] || DEFAULT_VERSION
-
-binary = Vise::Binary.new(ARGV[0], ARGV[1])
-binary.compile do |workspace_dir, output_dir, version|
-  Dir.chdir(workspace_dir) do
-    system("env HOME=\#{workspace_dir} /tmp/build \#{workspace_dir} \#{output_dir}")
-  end
-end
-COMPILE
-          end
+          write_bin_file('compile', read_bin_file("compile"))
         end
 
         puts "running `bundle install --standalone`"
