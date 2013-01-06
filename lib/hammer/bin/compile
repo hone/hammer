@@ -1,15 +1,16 @@
 #!/usr/bin/env ruby
 
 require_relative '../vendor/bundle/bundler/setup'
-require 'hammer'
+require 'vise/shell_tools'
+require 'vise/binary'
 
-include Hammer::ShellTools
+include Vise::ShellTools
 
 DEFAULT_VERSION = "0.1"
 version = ENV['VERSION'] || DEFAULT_VERSION
 env = {}
 
-binary = Hammer::Binary.new(ARGV[0], ARGV[1])
+binary = Vise::Binary.new(ARGV[0], ARGV[1])
 binary.compile do |workspace_dir, output_dir, version|
   Dir.chdir(workspace_dir) do
     env["HOME"] = workspace_dir

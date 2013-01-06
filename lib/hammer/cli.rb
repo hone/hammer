@@ -1,12 +1,13 @@
-require "hammer/shell_tools"
+require "vise/shell_tools"
 require 'thor'
 require 'fileutils'
 require 'tmpdir'
 require 'uri'
+require 'vise/version'
 
 module Hammer
   class CLI < Thor
-    include ShellTools
+    include Vise::ShellTools
 
     desc "new PROJECT_NAME", "generate a new binary project"
     def new(name)
@@ -20,7 +21,7 @@ module Hammer
           file.puts <<GEMFILE
 source "https://rubygems.org"
 
-gem 'hammer', "~> #{Hammer::VERSION}", :github => 'hone/hammer'
+gem 'vise', "~> #{Vise::VERSION}"
 GEMFILE
         end
 
@@ -54,14 +55,14 @@ RELEASE
 #!/usr/bin/env ruby
 
 require_relative '../vendor/bundle/bundler/setup'
-require 'hammer'
+require 'vise'
 
-include Hammer::ShellTools
+include Vise::ShellTools
 
 DEFAULT_VERSION = "0.1"
 version = ENV['VERSION'] || DEFAULT_VERSION
 
-binary = Hammer::Binary.new(ARGV[0], ARGV[1])
+binary = Vise::Binary.new(ARGV[0], ARGV[1])
 binary.compile do |workspace_dir, output_dir, version|
   Dir.chdir(workspace_dir) do
     system("env HOME=\#{workspace_dir} /tmp/build \#{workspace_dir} \#{output_dir}")
@@ -142,7 +143,7 @@ COMPILE
               file.puts <<GEMFILE
 source "https://rubygems.org"
 
-gem 'hammer', "~> #{Hammer::VERSION}", :github => 'hone/hammer'
+gem 'vise', "~> #{Vise::VERSION}"
 GEMFILE
             end
             system("bundle install --standalone")

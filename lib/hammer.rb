@@ -1,6 +1,5 @@
 require "hammer/version"
-require "hammer/binary"
-require "hammer/shell_tools"
+require "vise/shell_tools"
 
 module Hammer
 end
