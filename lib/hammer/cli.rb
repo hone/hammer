@@ -92,25 +92,16 @@ GEMFILE
           system("cp -rf #{options[:build]}/* #{dir}")
 
           Dir.chdir(dir) do
-            FileUtils.mkdir_p("bin")
-            Dir.chdir("bin") do
-              write_bin_file('detect', read_bin_file("detect"))
-              write_bin_file('compile', read_bin_file("compile"))
-              write_bin_file('release', read_bin_file("release"))
-            end
+            FileUtils.cp_r(File.join(vendor_dir, "bin"), ".")
+            FileUtils.cp_r(File.join(vendor_dir, "bundle"), ".")
+            FileUtils.cp(File.join(vendor_dir, "Gemfile"), ".")
+            FileUtils.cp(File.join(vendor_dir, "Gemfile.lock"), ".")
+
             if options[:env]
               File.open('env', 'wb') do |file|
                 options[:env].each {|k, v| file.puts "#{k}=#{v}" }
               end
             end
-            File.open('Gemfile', 'wb') do |file|
-              file.puts <<GEMFILE
-source "https://rubygems.org"
-
-gem 'vise', "~> #{Vise::VERSION}"
-GEMFILE
-            end
-            system("bundle install --standalone")
 
             slug_url = Anvil::Engine.build(".", :buildpack => ".")
           end
@@ -146,8 +137,12 @@ GEMFILE
       end
     end
 
+    def vendor_dir
+      File.join(File.dirname(__FILE__), "vendor")
+    end
+
     def read_bin_file(name)
-      File.read(File.join(File.dirname(__FILE__), "bin/#{name}"))
+      File.read(File.join(vendor_dir, "bin/#{name}"))
     end
   end
 end

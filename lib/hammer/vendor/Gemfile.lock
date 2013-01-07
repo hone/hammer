@@ -1,0 +1,10 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    vise (0.0.1.pre)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  vise (~> 0.0.1.pre)
