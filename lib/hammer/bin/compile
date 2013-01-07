@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../vendor/bundle/bundler/setup'
+require_relative '../bundle/bundler/setup'
 require 'vise/shell_tools'
 require 'vise/binary'
 
