@@ -3,7 +3,6 @@ require 'thor'
 require 'fileutils'
 require 'tmpdir'
 require 'uri'
-require 'vise/version'
 
 module Hammer
   class CLI < Thor
@@ -16,28 +15,18 @@ module Hammer
       FileUtils.mkdir(name)
 
       Dir.chdir(name) do
-        puts "#{name}/Gemfile"
-        File.open('Gemfile', 'wb') do |file|
-          file.puts <<GEMFILE
-source "https://rubygems.org"
-
-gem 'vise', "~> #{Vise::VERSION}"
-GEMFILE
-        end
-
         puts "#{name}/bin"
         FileUtils.mkdir("bin")
-        Dir.chdir("bin") do
-          puts "#{name}/bin/detect"
-          write_bin_file('detect', read_bin_file("detect"))
-          puts "#{name}/bin/release"
-          write_bin_file('release', read_bin_file("release"))
-          puts "#{name}/bin/compile"
-          write_bin_file('compile', read_bin_file("compile"))
-        end
-
-        puts "running `bundle install --standalone`"
-        pipe "env BUNDLE_GEMFILE=Gemfile bundle install --standalone"
+        puts "#{name}/bin/detect"
+        puts "#{name}/bin/release"
+        puts "#{name}/bin/compile"
+        FileUtils.cp_r(File.join(vendor_dir, "bin"), ".")
+        puts "#{name}/bundle/"
+        FileUtils.cp_r(File.join(vendor_dir, "bundle"), ".")
+        puts "#{name}/Gemfile"
+        FileUtils.cp(File.join(vendor_dir, "Gemfile"), ".")
+        puts "#{name}/Gemfile.lock"
+        FileUtils.cp(File.join(vendor_dir, "Gemfile.lock"), ".")
       end
     end
 
