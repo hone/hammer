@@ -18,6 +18,7 @@ This example will show you how to statically compile libyaml on heroku using ham
     libyaml/build
     
 The template app should look something ilke this:
+
     $ cd libyaml/
     $ cat build
     #!/bin/sh
@@ -36,7 +37,8 @@ The build script is passed two arguments. The first is the workspace directory. 
 
 The second argument is the output directory. This is the directory that anvil will package up and generate a tarball for. Make sure to only inclued things you want in the final tarball. You usually want to set the `--prefix` argument to this value or somewhere in this directory.
 
-We can change the build script to build libyaml. We'll be using the $VERSION env var to allow us to pick the version.
+We can change the build script to build libyaml. We'll be using the `$VERSION` env var to allow us to pick the version.
+
     $ cat build
     #!/bin/sh
     
@@ -51,6 +53,7 @@ We can change the build script to build libyaml. We'll be using the $VERSION env
     make install
 
 We can now build libyaml. The latest version as of this writing is 0.1.4. We can use the `--env` option to pass a list of env vars to the build script we wrote, like `--env KEY1:VALUE1 KEY2:VALUE2`.
+
     $ hammer build --env VERSION:0.1.4
     Checking for buildpack files to sync... done, 3 files needed
     Uploading: 100.0%
