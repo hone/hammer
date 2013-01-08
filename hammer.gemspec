@@ -18,6 +18,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency "thor", "~> 0.15.0"
-  gem.add_dependency "anvil-cli", "~> 0.14.0"
+  gem.add_dependency "anvil-cli", "~> 0.15"
   gem.add_dependency "vise", "~> 0.0.1.pre"
 end
