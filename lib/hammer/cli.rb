@@ -55,7 +55,7 @@ module Hammer
             end
           end
 
-          slug_url = Anvil::Engine.build(".", :buildpack => ".")
+          slug_url = Anvil::Engine.build(".", :buildpack => ".", :ignore => ["./builds"])
         end
       end
 
@@ -67,7 +67,8 @@ module Hammer
           system("tar zxf #{filename}")
           system("rm -rf #{filename} .profile.d .bundle Procfile .gitignore")
           system("tar czf #{filename} *")
-          system("mv #{filename} #{pwd}")
+          FileUtils.mkdir_p("#{pwd}/builds")
+          system("mv #{filename} #{pwd}/builds")
         end
       end
     end
