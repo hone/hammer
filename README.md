@@ -33,7 +33,7 @@ The template app should look something ilke this:
     make
     make install
 
-The build script is passed two arguments. The first is the workspace directory. This is where you can build your package in a clean folder. You can download the source code and build it in this directory. We'll automatically cd here, so you start in this directory.
+The build script is passed two arguments. The first is the workspace directory. This is where you can build your package in a clean folder. You can download the source code and build it in this directory. We'll automatically cd here, so you start in this directory. `$HOME` is also set to this directory.
 
 The second argument is the output directory. This is the directory that anvil will package up and generate a tarball for. Make sure to only inclued things you want in the final tarball. You usually want to set the `--prefix` argument to this value or somewhere in this directory.
 
@@ -52,7 +52,7 @@ We can change the build script to build libyaml. We'll be using the `$VERSION` e
     make
     make install
 
-We can now build libyaml. The latest version as of this writing is 0.1.4. We can use the `--env` option to pass a list of env vars to the build script we wrote, like `--env KEY1:VALUE1 KEY2:VALUE2`.
+We can now build libyaml. The latest version as of this writing is 0.1.4. We can use the `--env` option to pass a list of env vars to the build script we wrote, like `--env KEY1:VALUE1 KEY2:VALUE2`. We also copy the contents of the current working directory (locally where the command is run) into `/tmp` on Heroku.
 
     $ hammer build --env VERSION:0.1.4
     Checking for buildpack files to sync... done, 3 files needed
