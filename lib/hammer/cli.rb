@@ -53,7 +53,7 @@ module Hammer
         filename = URI.parse(slug_url).path.sub("/slugs/", "")
 
         Dir.chdir(dir) do
-          system("curl -O #{slug_url}")
+          system("curl -s -O #{slug_url}")
           system("tar zxf #{filename}")
           system("rm -rf #{filename} .profile.d .bundle Procfile .gitignore")
           system("tar czf #{filename} *")
