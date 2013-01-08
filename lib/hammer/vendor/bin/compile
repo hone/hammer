@@ -6,12 +6,10 @@ require 'vise/binary'
 
 include Vise::ShellTools
 
-DEFAULT_VERSION = "0.1"
-version = ENV['VERSION'] || DEFAULT_VERSION
 env = {}
 
 binary = Vise::Binary.new(ARGV[0], ARGV[1])
-binary.compile do |workspace_dir, output_dir, version|
+binary.compile do |workspace_dir, output_dir|
   Dir.chdir(workspace_dir) do
     env["HOME"] = workspace_dir
     if File.exists?('/tmp/env')

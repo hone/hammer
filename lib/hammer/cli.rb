@@ -42,8 +42,6 @@ GEMFILE
     end
 
     desc "build", "builds the binary"
-    method_option :version, :type => :string,
-      :desc => "the version of the project"
     method_option :local, :type => :boolean, :default => false,
       :desc => "flag to do a local build"
     method_option :debug, :type => :boolean, :default => false,
@@ -53,7 +51,7 @@ GEMFILE
     method_option :env, :type => :hash,
       :desc => "build environment to pass to the build script"
     def build
-      env = {:VERSION => options[:version], :DEBUG => options[:debug]}
+      env = {:DEBUG => options[:debug]}
       cmd = ""
       if env.values.any?
         cmd << "env "
