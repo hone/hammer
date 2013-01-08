@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Hammer::VERSION
   gem.authors       = ["Terence Lee"]
   gem.email         = ["hone02@gmail.com"]
-  gem.description   = %q{Library to assist with building binaries using Heroku's anvil}
-  gem.summary       = %q{Library to assist with building binaries using Heroku's anvil}
+  gem.description   = %q{CLI tool to help building binaries using Heroku's anvil}
+  gem.summary       = %q{CLI tool to help building binaries using Heroku's anvil}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
