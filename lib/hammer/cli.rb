@@ -10,23 +10,13 @@ module Hammer
 
     desc "new PROJECT_NAME", "generate a new binary project"
     def new(name)
-      puts "Creating buildpack skeleton..."
+      puts "Creating hammer skeleton..."
       puts "#{name}/"
       FileUtils.mkdir(name)
 
       Dir.chdir(name) do
-        puts "#{name}/bin"
-        FileUtils.mkdir("bin")
-        puts "#{name}/bin/detect"
-        puts "#{name}/bin/release"
-        puts "#{name}/bin/compile"
-        FileUtils.cp_r(File.join(vendor_dir, "bin"), ".")
-        puts "#{name}/bundle/"
-        FileUtils.cp_r(File.join(vendor_dir, "bundle"), ".")
-        puts "#{name}/Gemfile"
-        FileUtils.cp(File.join(vendor_dir, "Gemfile"), ".")
-        puts "#{name}/Gemfile.lock"
-        FileUtils.cp(File.join(vendor_dir, "Gemfile.lock"), ".")
+        puts "#{name}/build"
+        FileUtils.cp(File.join(vendor_dir, "build"), ".")
       end
     end
 

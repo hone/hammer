@@ -1,0 +1,11 @@
+#!/bin/sh
+
+workspace_dir=$1
+output_dir=$2
+
+curl -O http://example.com/foo.tgz -s -o - | tar zxf
+
+cd foo
+./configure --prefix=$output_dir
+make
+make install
