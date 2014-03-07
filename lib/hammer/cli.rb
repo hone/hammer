@@ -57,7 +57,7 @@ module Hammer
           system("curl -s -O #{slug_url}")
           system("tar zxf #{filename}")
           system("rm -rf #{filename} .profile.d .bundle Procfile .gitignore")
-          system("tar czf #{filename} *")
+          system("`which gnutar tar | head -n 1` czf #{filename} *")
           FileUtils.mkdir_p("#{pwd}/builds")
           system("mv #{filename} #{pwd}/builds")
         end
